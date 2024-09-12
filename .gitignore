@@ -15,7 +15,7 @@ dist
 dist-ssr
 
 # Local environment files
-backend/.env
+api/.env
 
 # Editor directories and files
 .vscode/*
@@ -29,12 +29,12 @@ backend/.env
 *.sw?
 
 # Backend specific
-backend/node_modules
-backend/dist
+api/node_modules
+api/dist
 
 # Frontend specific
-frontend/client/node_modules
-frontend/client/dist
+client/client/node_modules
+client/client/dist
 
 # Miscellaneous
 .vscode
