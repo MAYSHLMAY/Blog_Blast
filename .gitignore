@@ -39,3 +39,5 @@ frontend/client/dist
 # Miscellaneous
 .vscode
 .idea
+
+.vercel
