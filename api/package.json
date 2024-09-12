@@ -1,17 +1,13 @@
 {
-  "name": "mern-blog",
+  "name": "api",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon api/index.js",
-    "start": "node api/index.js",
-    "build": "npm install && npm install --prefix client && npm run build --prefix client"
+    "dev": "react-scripts start",
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "axios": "^1.7.3",
     "bcryptjs": "^2.4.3",
@@ -23,6 +19,11 @@
     "mongoose": "^8.0.2",
     "nodemon": "^3.0.2",
     "socket.io": "^4.7.5",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "react-scripts": "5.0.0"
   }
 }
