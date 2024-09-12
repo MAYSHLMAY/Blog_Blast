@@ -5,7 +5,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://blog-blast-backend.onrender.com',
+        target: 'https://localhost:5000',
         changeOrigin: true,
         secure: false,
       },
