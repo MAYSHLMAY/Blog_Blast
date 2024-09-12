@@ -2,11 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      '@components': '/src/components',
-    },
-  },
   build: {
     outDir: 'frontend/dist', // Ensure the build output directory matches the vercel.json configuration
   },
