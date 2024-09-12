@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { jsx } from 'react/jsx-runtime'; // Ensure this import is valid if used
 import { useSelector } from 'react-redux';
 import {
   HiAnnotation,
