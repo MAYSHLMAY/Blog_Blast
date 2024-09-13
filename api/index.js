@@ -47,6 +47,11 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Backend API is working');
+});
+
+
 // app.use(express.static(path.join(__dirname, '/client/dist')));
 
 // app.get('*', (req, res) => {
