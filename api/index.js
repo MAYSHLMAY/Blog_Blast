@@ -8,6 +8,7 @@ import commentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import axios from 'axios';
+import notificationRoutes from './routes/notification.route.js';
 
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.listen(3000, () => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use('/api/notifications', notificationRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 
