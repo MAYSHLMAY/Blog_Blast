@@ -5,43 +5,41 @@ import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import postRoutes from './routes/post.route.js';
 import commentRoutes from './routes/comment.route.js';
+import cookieParser from 'cookie-parser';
 import path from 'path';
 import axios from 'axios';
 
-// Initialize environment variables
+
 dotenv.config();
 
-// Connect to MongoDB
 mongoose.connect(process.env.MONGO)
-  .then(() => console.log('MongoDB is Connected!'))
-  .catch(err => console.log(err));
+.then(() => console.log('MongoDB is Connected!'))
+.catch(err => console.log(err));
+
 
 const __dirname = path.resolve();
-const app = express();
 
-// Middleware
+const app = express()
 app.use(express.json());
+app.use(cookieParser());
 
-// Routes
+app.listen(3000, () => {
+    console.log("Server is running on port 3000");   
+});
+
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 
-// Chatbot Route
-app.post('/api/chat/clear-context', (req, res) => {
-  // No session handling here
-  res.json({ message: 'Session context cleared' });
-});
-
 app.post('/api/chat', async (req, res) => {
-  const { prompt, clearContext } = req.body;
+  const { prompt } = req.body;
 
   if (!prompt) {
     return res.status(400).json({ error: 'Prompt is required' });
   }
 
-  // Initialize payload
+  // Prepare payload with the new prompt
   const payload = {
     contents: [
       {
@@ -76,6 +74,7 @@ app.post('/api/chat', async (req, res) => {
       response.data.candidates[0].content.parts[0].text
     ) {
       const message = response.data.candidates[0].content.parts[0].text;
+
       res.json({ message });
     } else {
       res.status(500).json({ error: 'Unexpected API response structure', details: response.data });
@@ -95,28 +94,21 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Serve static files and handle routes
 app.use(express.static(path.join(__dirname, 'client/dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
-app.get('/', (req, res) => {
-  res.send("Hello from Node API server!");
-});
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-  res.status(statusCode).json({
-    success: false,
-    statusCode,
-    message,
-  });
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message,
+    });    
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
