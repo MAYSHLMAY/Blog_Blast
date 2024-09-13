@@ -10,7 +10,7 @@ const Notification = () => {
 
   useEffect(() => {
     const fetchNotificationCounts = async () => {
-      if (currentUser && currentUser.token) {
+      if (currentUser) {
         try {
           const response = await axios.get('/api/notifications/counts', {
             headers: {
