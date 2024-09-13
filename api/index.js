@@ -5,10 +5,8 @@ import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import postRoutes from './routes/post.route.js';
 import commentRoutes from './routes/comment.route.js';
-import cookieParser from 'cookie-parser';
 import path from 'path';
 import axios from 'axios';
-import fs from 'fs';
 
 // Initialize environment variables
 dotenv.config();
@@ -23,17 +21,6 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cookieParser());
-
-// Debug Middleware
-app.use((req, res, next) => {
-  console.log('Session ID:', req.sessionID);
-  console.log('Session Data:', req.session);
-
-  fs.appendFileSync('debug.log', `Session ID: ${req.sessionID}\nSession Data: ${JSON.stringify(req.session, null, 2)}\n\n`);
-
-  next();
-});
 
 // Routes
 app.use("/api/user", userRoutes);
@@ -43,7 +30,7 @@ app.use("/api/comment", commentRoutes);
 
 // Chatbot Route
 app.post('/api/chat/clear-context', (req, res) => {
-  req.session.context = [];
+  // No session handling here
   res.json({ message: 'Session context cleared' });
 });
 
@@ -54,30 +41,9 @@ app.post('/api/chat', async (req, res) => {
     return res.status(400).json({ error: 'Prompt is required' });
   }
 
-  // Clear the session context if requested
-  if (clearContext) {
-    req.session.context = [];
-    return res.json({ message: 'Session context cleared' });
-  }
-
-  // Initialize or retrieve the conversation context from the session
-  const sessionContext = req.session.context || [];
-
-  // Add the new user prompt to the context
-  sessionContext.push({ role: 'user', content: prompt });
-
-  // Keep only the last two user prompts in the context
-  const recentUserPrompts = sessionContext
-    .filter(ctx => ctx.role === 'user')
-    .slice(-2); // Get last two user prompts
-
-  // Prepare payload with the last two user prompts and the new prompt
+  // Initialize payload
   const payload = {
     contents: [
-      ...recentUserPrompts.map(ctx => ({
-        parts: [{ text: ctx.content }],
-        role: ctx.role
-      })),
       {
         parts: [{ text: prompt }],
         role: 'user'
@@ -110,11 +76,6 @@ app.post('/api/chat', async (req, res) => {
       response.data.candidates[0].content.parts[0].text
     ) {
       const message = response.data.candidates[0].content.parts[0].text;
-
-      // Add the bot's response to the conversation context
-      sessionContext.push({ role: 'bot', content: message });
-      req.session.context = sessionContext;
-
       res.json({ message });
     } else {
       res.status(500).json({ error: 'Unexpected API response structure', details: response.data });
