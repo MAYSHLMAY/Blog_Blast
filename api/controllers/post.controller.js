@@ -1,5 +1,5 @@
 import Post from '../models/post.model.js';
-import { errorHandler } from '../middleware/error.js';
+import { errorHandler } from '../utils/error.js';
 import Notification from '../models/notification.model.js';
 import User from '../models/user.model.js';
 

@@ -10,15 +10,20 @@ const Notification = () => {
 
   useEffect(() => {
     const fetchNotificationCounts = async () => {
-      try {
-        const response = await axios.get('/api/notifications/counts', {
-          headers: {
-            'Authorization': `Bearer ${currentUser.token}`,
-          },
-        });
-        setUnreadCount(response.data.unreadCount);
-      } catch (error) {
-        console.error('Error fetching notification counts:', error);
+      if (currentUser && currentUser.token) {
+        try {
+          const response = await axios.get('/api/notifications/counts', {
+            headers: {
+              'Authorization': `Bearer ${currentUser.token}`,
+            },
+          });
+          setUnreadCount(response.data.unreadCount);
+        } catch (error) {
+          console.error('Error fetching notification counts:', error);
+        }
+      } else {
+        console.log('User is not logged in.');
+        setUnreadCount(0); // Set default if not logged in
       }
     };
 
@@ -26,15 +31,19 @@ const Notification = () => {
   }, [currentUser]);
 
   const handleBellClick = async () => {
-    navigate('/dashboard?tab=notifications');
-  }
+    if (currentUser) {
+      navigate('/dashboard?tab=notifications');
+    } else {
+      navigate('/login'); // Redirect to login if not logged in
+    }
+  };
 
   return (
     <header className="header">
       <div className="header-content">
         {/* Other header content */}
 
-        <div className="notification-icon"  onClick={handleBellClick}>
+        <div className="notification-icon" onClick={handleBellClick}>
           <span className={`icon ${unreadCount > 0 ? 'glowing-red' : ''}`}>🔔</span>
           {unreadCount > 0 && (
             <div className="notification-counter">

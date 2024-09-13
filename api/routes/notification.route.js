@@ -1,5 +1,5 @@
 import express from 'express';
-import { verifyToken } from '../middleware/verifyUser.js'; // Import your authentication middleware
+import { verifyToken } from '../utils/verifyUser.js'; // Import your authentication middleware
 import { getUnreadNotifications } from '../controllers/notification.controller.js'; // Import the controller function
 import { markNotificationsAsRead } from '../controllers/notification.controller.js';
 import { getNotificationCounts } from '../controllers/notification.controller.js';
