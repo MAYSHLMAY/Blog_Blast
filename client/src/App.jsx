@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import UserProfile from './components/UserProfile';
 import CreatePost from './pages/CreatePost';
+import Chatbot from './components/Chatbot';
 import UpdatePost from './pages/UpdatePost';
 import PostPage from './pages/PostPage';
 import ScrollToTop from './components/ScrollToTop';
@@ -34,6 +35,7 @@ export default function App() {
         <Route path='/post/:postSlug' element={<PostPage />} />
         <Route path="/user/:id" element={<UserProfile />} />
       </Routes>
+      <Chatbot/>
       <Footer />
     </BrowserRouter>
   );
