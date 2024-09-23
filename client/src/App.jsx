@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn';
 import Dashboard from './pages/Dashboard';
 import SignUp from './pages/SignUp';
 import Header from './components/Header';
+import Main from './pages/main';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import UserProfile from './components/UserProfile';
@@ -21,11 +22,13 @@ export default function App() {
       <ScrollToTop />
       <Header />
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Main />} />
+        <Route path='/home' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/search' element={<Search />} />
+
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
         </Route>

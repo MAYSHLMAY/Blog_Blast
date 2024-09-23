@@ -7,10 +7,11 @@ const Notification = () => {
   const navigate = useNavigate();
   const [unreadCount, setUnreadCount] = useState(0);
   const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser)
 
   useEffect(() => {
     const fetchNotificationCounts = async () => {
-      if (currentUser && currentUser.token) {
+      if (currentUser) {
         try {
           const response = await axios.get('/api/notifications/counts', {
             headers: {
@@ -18,8 +19,10 @@ const Notification = () => {
             },
           });
           setUnreadCount(response.data.unreadCount);
+          console.log(response.data.unreadCount)
         } catch (error) {
           console.error('Error fetching notification counts:', error);
+
         }
       } else {
         console.log('User is not logged in.');
